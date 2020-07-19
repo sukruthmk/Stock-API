@@ -1,0 +1,24 @@
+{
+  "name": "Stock-API",
+  "version": "1.0.0",
+  "description": "A simple stock web scraper to pull data from Zacks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sukruthmk/Stock-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sukruthmk/Stock-API/issues"
+  },
+  "homepage": "https://github.com/sukruthmk/Stock-API#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
