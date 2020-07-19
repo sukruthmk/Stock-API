@@ -1,47 +1,43 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
+//import dependencies
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
-const url = "https://www.zacks.com/stock/quote/AAPL";
+// define the Express app
+const app = express();
 
-axios
-  .get(url)
-  .then((response) => {
-    const html = response.data;
-    const rank = getRank(html);
-    const styleScores = getVGM(html);
-    const [value, growth, momentum, vgm] = styleScores;
-    console.log({ rank, value, growth, momentum, vgm });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+// enhance your app security with Helmet
+app.use(helmet());
 
-const getRank = (html) => {
-  const $ = cheerio.load(html);
-  const rankString = $(".zr_rankbox .rank_view").text();
-  const rank = parseInt(rankString);
-  return rank;
-};
+// use bodyParser to parse application/json content-type
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-const getVGM = (html) => {
-  const $ = cheerio.load(html);
-  const data = [];
-  $(".zr_rankbox.composite_group .rank_view .composite_val").each(
-    (i, element) => {
-      data.push($(element).text());
-    }
-  );
-  return data;
-};
+// enable all CORS requests
+app.use(cors());
 
-// const url = "https://quote-feed.zacks.com/index.php?t=TSLA";
+// log HTTP requests
+app.use(morgan("combined"));
 
-// axios
-//   .get(url)
-//   .then((response) => {
-//     const data = response.data;
-//     console.log(data.TSLA.zacks_rank);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
+// Load Config
+const config = require("config.json");
+
+// Set up mongoose connection
+const mongoose = require("mongoose");
+let db_url = config.db_url;
+let mongoDB = process.env.MONGODB_URI || db_url;
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+let db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+const zacksRoutes = require("./routes/zacks.route");
+
+app.use("/zacks", zacksRoutes);
+let port = 1234;
+
+app.listen(port, () => {
+  console.log("Server is up and running on port numner " + port);
+});
