@@ -22,13 +22,17 @@ app.use(cors());
 app.use(morgan("combined"));
 
 // Load Config
-const config = require("config.json");
+const config = require("./config.json");
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
 let db_url = config.db_url;
 let mongoDB = process.env.MONGODB_URI || db_url;
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, {
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useNewUrlParser: true,
+});
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));

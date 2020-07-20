@@ -5,5 +5,4 @@ const zacksController = require("../controllers/zacks.controller");
 
 router.get("/", zacksController.read);
 
-router.get("/rank", zacksController.rank);
 module.exports = router;

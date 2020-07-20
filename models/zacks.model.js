@@ -14,7 +14,7 @@ let ZacksSchema = new Schema(
       required: true,
       dropDups: true,
     },
-    rank: { type: number, required: true },
+    rank: { type: Number, required: true },
     value: { type: String, max: 10, required: true },
     growth: { type: String, max: 10, required: true },
     momentum: { type: String, max: 10, required: true },
