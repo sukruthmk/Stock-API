@@ -1,9 +1,10 @@
 {
-  "name": "Stock-API",
+  "name": "stock",
   "version": "1.0.0",
   "description": "A simple stock web scraper to pull data from Zacks",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
